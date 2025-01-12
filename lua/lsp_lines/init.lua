@@ -37,6 +37,10 @@ M.setup = function(options)
     ---@param diagnostics table
     ---@param opts boolean|Opts
     show = function(namespace, bufnr, diagnostics, opts)
+      if vim.api.nvim_buf_get_name(bufnr) == "" then
+          return
+      end
+
       local ns = vim.diagnostic.get_namespace(namespace)
       if not ns.user_data.virt_lines_ns then
         ns.user_data.virt_lines_ns = vim.api.nvim_create_namespace("")
@@ -60,6 +64,10 @@ M.setup = function(options)
     ---@param namespace number
     ---@param bufnr number
     hide = function(namespace, bufnr)
+      if vim.api.nvim_buf_get_name(bufnr) == "" then
+          return
+      end
+
       local ns = vim.diagnostic.get_namespace(namespace)
       if ns.user_data.virt_lines_ns then
         render.hide(ns.user_data.virt_lines_ns, bufnr)
